@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Base64 Encoder and Decoder">
+    <title>Base64</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2">
+                <div class="form-group" style="margin-top: 50px;">
+                    <label for="plain">Plain Text</label>
+                    <textarea class="form-control" id="plain" style="height: 17rem;"></textarea>
+                    <button class="btn btn-success" id="plainCopy" style="margin-top: 1rem;">Copy To Clipboard</button>
+                    <div class="alert alert-success d-none" id="plainCopied" style="margin-top: 1rem;">Copied</div>
+                </div>
+
+
+                <div class="form-group" style="margin-top: 50px;">
+                    <label for="base64">Base64 Text</label>
+                    <textarea class="form-control" id="base64" style="height: 17rem;"></textarea>
+                    <button class="btn btn-success" id="base64Copy" style="margin-top: 1rem;">Copy To Clipboard</button>
+                    <div class="alert alert-success d-none" id="base64Copied" style="margin-top: 1rem;">Copied</div>
+                </div>
+                
+               
+                
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $.fn.flash = function(){
+            $(this).effect("highlight", {}, 2000);
+        }
+        $('#plain').on('input', function () {
+            let b64 = window.btoa($(this).val());
+            $('#base64').val(b64).stop(true, true).effect("highlight");
+        });
+
+        $('#base64').on('input', function () {
+            let plain = window.atob($(this).val());
+            $('#plain').val(plain).stop(true, true).effect("highlight");
+        });
+
+
+        
+        const copyToClipboard = str => {
+            const el = document.createElement('textarea');
+            el.value = str;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        };
+
+        $('#plainCopy').on('click', function(){
+            copyToClipboard($("#plain").val());
+            $('#plainCopied').addClass("d-block");
+            setTimeout(() => {
+                $('#plainCopied').removeClass("d-block");
+            }, 3000);
+        });
+
+        $('#base64Copy').on('click', function(){
+            copyToClipboard($("#base64").val());
+            $('#base64Copied').addClass("d-block");
+            setTimeout(() => {
+                $('#base64Copied').removeClass("d-block");
+            }, 3000);
+        });
+        
+
+    </script>
+</body>
+
+</html>
